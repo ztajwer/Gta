@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TIDELINE // Suncoast After Dark</title>
+    <meta name="theme-color" content="#080d1f" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="game-shell">
+      <canvas id="game-canvas"></canvas>
+
+      <div id="intro-screen" class="screen-overlay">
+        <div class="intro-noise"></div>
+        <div class="intro-content">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> SUNCOAST COUNTY // 05:39 PM</div>
+          <h1>TIDE<br /><em>LINE</em></h1>
+          <p class="intro-copy">Palm-lined streets, open water, and one more run before the lights come on.</p>
+          <button id="play-btn" class="primary-button"><span>ENTER THE CITY</span><b>↗</b></button>
+          <div class="intro-meta"><span>ARROWS MOVE // E ENTERS CARS</span><span>TYPE SEAWAYS OR FLY IN-GAME</span><span class="touch-hint">TOUCH PAD + ACTIONS ON PHONE</span></div>
+        </div>
+        <div class="intro-side"><span>01</span><i></i><span>SCROLL TO EXPLORE</span></div>
+      </div>
+
+      <header id="hud-top" class="hud hidden">
+        <div class="brand-mark"><span class="mark-sun"></span><span>TIDE<b>LINE</b></span></div>
+        <div class="city-clock"><span class="status-dot"></span><span id="district-label">SUNSET DISTRICT</span><strong id="clock-label">17:39</strong></div>
+        <div class="top-actions"><button id="audio-btn" class="hud-icon" title="Toggle audio">♫</button><button id="day-night-btn" class="hud-icon" title="Toggle day/night (T)">☾</button><button id="map-btn" class="hud-icon" title="Map (M)">⌘</button><button id="pause-btn" class="hud-icon" title="Pause (Esc)">Ⅱ</button></div>
+      </header>
+
+      <section id="mission-card" class="mission-card hud hidden">
+        <div class="mission-kicker"><span class="pulse-dot"></span><span id="mission-status">AVAILABLE JOB</span></div>
+        <h2 id="mission-title">HOTEL RENDEZVOUS</h2>
+        <p id="mission-copy">Take a sealed envelope from the marina to Hotel Cielo before the evening rush.</p>
+        <div class="mission-progress"><div id="mission-progress-fill"></div></div>
+        <div class="mission-footer"><span id="mission-objective">Press J to accept</span><strong id="mission-reward">+$2,500</strong></div>
+      </section>
+
+      <div id="wanted-panel" class="wanted-panel hud hidden"><span class="wanted-label">WANTED</span><div id="wanted-stars" class="wanted-stars">☆☆☆☆☆</div></div>
+
+      <div id="crosshair" class="crosshair hidden"><span></span></div>
+
+      <aside id="vehicle-panel" class="vehicle-panel hud hidden">
+        <div class="vehicle-icon">◇</div>
+        <div><span class="vehicle-kicker">PERSONAL RIDE</span><strong id="vehicle-name">VAPOR GT</strong><small id="vehicle-mode" class="vehicle-mode">ROAD</small></div>
+        <div class="speed-wrap"><strong id="speed-label">000</strong><span>KM/H</span></div>
+      </aside>
+
+      <div id="minimap-wrap" class="minimap-wrap hud hidden">
+        <canvas id="minimap" width="180" height="180"></canvas>
+        <div class="minimap-label"><span class="mini-dot"></span> LIVE MAP <b>M</b></div>
+      </div>
+
+      <div id="prompt" class="prompt hidden"><span id="prompt-key">E</span><span id="prompt-copy">Enter vehicle</span></div>
+      <div id="touch-controls" class="touch-controls hud hidden" aria-label="Touch game controls">
+        <div class="touch-pad" aria-label="Movement">
+          <button type="button" data-touch-key="arrowup" aria-label="Move forward">▲</button>
+          <button type="button" data-touch-key="arrowleft" aria-label="Move left">◀</button>
+          <button type="button" data-touch-key="arrowdown" aria-label="Move backward">▼</button>
+          <button type="button" data-touch-key="arrowright" aria-label="Move right">▶</button>
+        </div>
+        <div class="touch-actions" aria-label="Actions">
+          <button type="button" data-touch-action="enter">ENTER</button>
+          <button type="button" data-touch-key="space">JUMP</button>
+          <button type="button" data-touch-key="shift">RUN</button>
+          <button type="button" data-touch-action="horn">HORN</button>
+          <button type="button" data-touch-action="seaways">SEA</button>
+          <button type="button" data-touch-action="fly">FLY</button>
+          <button type="button" data-touch-action="mission">JOB</button>
+          <button type="button" data-touch-action="camera">CAM</button>
+        </div>
+      </div>
+      <div id="toast" class="toast"></div>
+
+      <footer id="hud-bottom" class="hud-bottom hud hidden">
+        <div class="player-stats"><div class="avatar-chip">Z</div><div class="health-stack"><div class="health-label"><span>HEALTH</span><b id="health-value">100</b></div><div class="health-bar"><i id="health-fill"></i></div></div></div>
+        <div class="controls-hint"><span><b>ARROWS</b> MOVE & DRIVE</span><span><b>SHIFT</b> SPRINT</span><span><b>E</b> ENTER / EXIT</span><span><b>C</b> CAMERA</span><span><b>M</b> MAP</span><span><b>SEAWAYS / FLY</b> CHEATS</span></div>
+        <div class="cash"><span>CASH BALANCE</span><strong id="cash-value">$12,840</strong></div>
+      </footer>
+
+      <div id="map-overlay" class="map-overlay hidden">
+        <div class="map-title"><span>THE COASTAL GRID</span><button id="map-close">CLOSE <b>M</b></button></div>
+        <canvas id="big-map" width="920" height="580"></canvas>
+        <div class="map-legend"><span><i class="legend-player"></i> YOU</span><span><i class="legend-mission"></i> JOB</span><span><i class="legend-police"></i> POLICE</span><span><i class="legend-road"></i> MAIN ROAD</span></div>
+      </div>
+
+      <div id="pause-overlay" class="pause-overlay hidden">
+        <div class="pause-panel"><div class="eyebrow"><span class="eyebrow-dot"></span> SYSTEM PAUSED</div><h2>TAKE A<br /><em>BREATH.</em></h2><p>The city will be here when you are ready.</p><div class="pause-actions"><button id="resume-btn" class="primary-button"><span>RESUME</span><b>↗</b></button><button id="save-btn" class="text-button">SAVE CITY</button><button id="load-btn" class="text-button">LOAD SAVE</button><button id="restart-btn" class="text-button">RESTART</button></div><div class="key-grid"><span><b>ARROWS</b> MOVE / DRIVE</span><span><b>MOUSE</b> LOOK AROUND</span><span><b>SPACE</b> JUMP / HANDBRAKE</span><span><b>SHIFT</b> SPRINT / FLY DOWN</span><span><b>E / F</b> ENTER / EXIT</span><span><b>H</b> HORN</span><span><b>J</b> ACCEPT MISSION</span><span><b>M</b> CITY MAP</span><span><b>T</b> DAY / NIGHT</span><span><b>Y</b> WEATHER</span><span><b>TYPE SEAWAYS</b> FLOAT ON WATER</span><span><b>TYPE FLY</b> SPACE TO RISE</span></div></div>
+      </div>
+
+      <div id="arrest-overlay" class="arrest-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="arrest-title">
+        <div class="arrest-panel">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> SUNCOAST COUNTY POLICE</div>
+          <h2 id="arrest-title">YOU'RE<br /><em>BUSTED.</em></h2>
+          <p id="arrest-copy">You were caught. Your wanted level has been cleared.</p>
+          <button id="arrest-return-btn" class="primary-button"><span>RETURN TO THE CITY</span><b>↗</b></button>
+          <div class="arrest-footnote">WANTED LEVEL CLEARED <span>•</span> PRESS ENTER TO CONTINUE</div>
+        </div>
+      </div>
+
+      <div id="error-banner" class="error-banner hidden"></div>
+    </div>
+
+    <script type="module" src="/boot.js"></script>
+  </body>
+</html>
