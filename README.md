@@ -38,3 +38,9 @@ Three.js and the game's scene are loaded locally through Vite. The lead characte
 - Touch screens — on-screen movement pad and action buttons; drag to look around
 
 Buildings, facades, landmarks, NPCs, vehicles, and weather are generated at runtime. The supplied `bg game sound.mp3` soundtrack starts when the city starts and loops until muted or the page is closed. Engine, footsteps, horn, rain, and police-siren layers are synthesized locally with Web Audio. If the track cannot load, the game falls back to its generated instrumental score. Fonts are self-hosted, and saves stay in this browser on this device.
+
+## Performance
+
+The renderer detects phones, Chromebooks, reduced-data connections, memory, and CPU limits automatically. Constrained devices use a 1x render scale, lighter shadows, fewer NPCs/traffic cars/particles, simplified background characters, and cheaper water effects. Desktop devices start at a capped 1.35x render scale and automatically lower render scale or shadows if sustained frame time drops.
+
+The production app registers a small service worker that caches the app shell and all requested production assets, so repeat launches are faster and the game can start from the browser cache when the network is unavailable.
